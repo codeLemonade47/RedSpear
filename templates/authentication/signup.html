@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&family=Roboto:wght@300&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'css/home.css' %}" type="text/css" media="screen">
+    <title>RedSpear Home</title>
+    <img src="{% static 'images/RedSpear_white_logo_font.png' %}" class="center">
+</head>
+
+<body>
+
+    <form action="">
+        { % csrf token % }
+        <label for="username">Username</label>
+        <input type="text" id="username" placeholder="username">
+
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" placeholder="password">
+
+        <button type="button" class="login-button">Signup</button>
+
+        
+
+    </form>
+
+
+
+
+
+</body>
+
+</html>

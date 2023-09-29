@@ -1,0 +1,48 @@
+body {
+  background-color: black;
+}
+
+.center {
+  margin-top: 5%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 25%;
+  height: 25%;
+}
+
+label {
+  display: block;
+  margin-left: 44.5%;
+  margin-top: 0.5%;
+  color: white;
+  font-family: 'Open Sans', sans-serif;
+}
+
+input {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0.5%;
+}
+
+.login-button {
+  display: block;
+  margin-left: auto;
+  border-radius: 5px;
+  margin-right: auto;
+  margin-top: 0.7%;
+  width: 11%;
+  padding: 4px 4px;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: bold;
+  color:white;
+  background-color:rgb(65, 65, 65)
+  
+}
+
+.login-button:hover {
+  background: linear-gradient(to right, #8c0000, rgb(36, 0, 145));
+  cursor: pointer;
+}
+

@@ -1,0 +1,19 @@
+.sidenav {
+    height: 100%;
+    width: 250px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgb(49, 49, 49);
+    padding-top: 20px;
+}
+
+.sidenav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 10px 15px;
+    text-decoration: none;
+    font-size: 18px;
+    color: #fff;
+    display: block;
+}
