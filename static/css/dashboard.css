@@ -52,8 +52,21 @@ p{
 .fullscan{
     height: 8%;
     width: 8%;
-    margin-left: 30%;
     margin-top: 15%;
     display: flex;
     justify-content: space-between; /* Distributes space evenly between images */
+    align-items: safe;
+    position: relative;
+    left: 31%;
+}
+
+.scans{
+    height: 8%;
+    width: 8%;
+    display: flex;
+    justify-content: space-between; /* Distributes space evenly between images */
+    align-items: safe;
+    position: relative;
+    left: 50%;
+    margin-top: auto;
 }
