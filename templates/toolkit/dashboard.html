@@ -1,13 +1,15 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/dashboard.css' %}" type="text/css" media="screen">
     <title>Dashboard</title>
-    
+
 </head>
+
 <body>
     <nav class="w3-sidebar w3-bar-block w3-small w3-hide-small w3-center ">
         <img src="{% static 'images/RedSpear_red_logo.png' %}" class="logo"><br><br><br>
@@ -21,11 +23,28 @@
 
     <div class="optionsbar">
         <a href="#">
-            <img src="{% static 'images/fullscan.png' %}" class="fullscan"></a><br>
-            <p class="label2" style="position:relative;left:32%; top:15%;">Full Scan</p>
+            <img src="{% static 'images/fullscan.png' %}" class="fullscan"
+                style="margin-top:15%; width:8%; height:8%; margin-left:31%;">
+        </a>
+
+        <a href="#">
+            <img src="{% static 'images/computer.png' %}" class="scan"
+                style="top:15%; width:8%; height:8%; margin-left:10%;">
+        </a>
+
+        <a href="#">
+            <img src="{% static 'images/cve_record.png' %}" class="scan"
+                style="top:15%; width:8%; height:8%; margin-left:10%;">
+        </a>
+
+
+
+
+
     </div>
 
 
 
 </body>
+
 </html>

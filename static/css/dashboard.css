@@ -49,24 +49,13 @@ p{
     margin-top: -15px;
 }
 
-.fullscan{
-    height: 8%;
-    width: 8%;
-    margin-top: 15%;
-    display: flex;
-    justify-content: space-between; /* Distributes space evenly between images */
-    align-items: safe;
-    position: relative;
-    left: 31%;
+
+
+
+.optionsbar{
+    display: block;
 }
 
-.scans{
-    height: 8%;
-    width: 8%;
-    display: flex;
-    justify-content: space-between; /* Distributes space evenly between images */
-    align-items: safe;
-    position: relative;
-    left: 50%;
-    margin-top: auto;
+.optionsbar a{
+    text-decoration: none;
 }
