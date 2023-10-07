@@ -4,9 +4,9 @@ body {
 
 .center {
   display: block;
-  margin: 0 auto;
-  max-width: 5%;
-  max-height: auto;
+  margin: auto;
+  width: 30%;
+  height: 30%;
 }
 
 label {
