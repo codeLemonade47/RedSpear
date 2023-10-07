@@ -53,7 +53,7 @@ p{
 
 
 .optionsbar{
-    display: block;
+    display: inline;
 }
 
 .optionsbar a{
@@ -61,5 +61,9 @@ p{
 }
 
 .labels{
-    display: block;
+    display: inline;
+}
+
+.labels p{
+    display: inline;
 }
