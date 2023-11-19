@@ -1,7 +1,7 @@
 import subprocess
 
-from checksum import check
-from tc_pdf import convert_to_pdf
+from .checksum import check
+from .ctpdf import convert_to_pdf
 
 def fullscan_script(ip, user_name, function_name):
 

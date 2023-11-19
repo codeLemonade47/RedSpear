@@ -1,0 +1,94 @@
+{% extends "toolkit/base.html" %}
+
+{% block content %}
+<title>
+    {% block title %}
+    Login to RedSpear RedTeam Toolkit
+    {% endblock %}
+</title>
+
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static " static/css/dashboard.css" %}" media="all" />
+
+<nav class="w3-sidebar w3-bar-block w3-small w3-hide-small w3-center ">
+    <!-- Avatar image in top left corner --><br><br>
+    <img src="{% static 'toolkit/images/sidebar_logo.png' %}" style="width:90% "><br><br><br>
+    <i class="w3-bar-item w3-padding-large">Version 0.1.5</i>
+    <a href="{% url 'home' %}" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+        <i class="fa fa-home w3-xxlarge"></i>
+        <p>HOME</p>
+    </a>
+
+    <!--  <a href="#about" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+      <i class="fa fa-user w3-xxlarge"></i>
+      <p>ABOUT</p>
+    </a> -->
+
+    <a href="{% url 'loginuser' %}" class="w3-bar-item w3-button w3-padding-large w3-black">
+        <i class="fa fa-solid fa-lock-open w3-xxlarge"></i>
+        <p>LOGIN</p>
+    </a>
+    <!--
+    <a href="#contact" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+      <i class="fa fa-envelope w3-xxlarge"></i>
+      <p>CONTACT</p>
+    </a>-->
+</nav>
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+<form autocomplete='off' class='form' method="POST">
+    {% csrf_token %}
+    <div class='control'>
+        <h1>
+            Sign In
+        </h1>
+    </div>
+    <div class='control block-cube block-input'>
+        <input name='username' placeholder='Username' type='text' id="username">
+        <div class='bg-top'>
+            <div class='bg-inner'></div>
+        </div>
+        <div class='bg-right'>
+            <div class='bg-inner'></div>
+        </div>
+        <div class='bg'>
+            <div class='bg-inner'></div>
+        </div>
+    </div>
+    <div class='control block-cube block-input'>
+        <input name='password' placeholder='Password' type='password' id="password">
+        <div class='bg-top'>
+            <div class='bg-inner'></div>
+        </div>
+        <div class='bg-right'>
+            <div class='bg-inner'></div>
+        </div>
+        <div class='bg'>
+            <div class='bg-inner'></div>
+        </div>
+    </div>
+
+    <button class='btn block-cube block-cube-hover' type='submit'>
+        <div class='bg-top'>
+            <div class='bg-inner'></div>
+        </div>
+        <div class='bg-right'>
+            <div class='bg-inner'></div>
+        </div>
+        <div class='bg'>
+            <div class='bg-inner'></div>
+        </div>
+        <div class='text'>
+            Log In
+        </div>
+    </button>
+    <br>
+    {% if error %}
+    <div class="alert alert-danger" role="alert">
+        {{ error }}
+    </div>
+    {% endif %}
+</form>
+
+{% endblock %}

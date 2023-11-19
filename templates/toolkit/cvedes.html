@@ -1,0 +1,62 @@
+{% extends "toolkit/base.html" %}
+
+{% block content %}
+
+<head>
+    <title>
+        { % block title % }
+        CVE-Desc - RedSpear Toolkit
+        {% endblock %}
+    </title>
+    <link rel="stylesheet" type="text/css" href="{% static " toolkit/css/searchbar_main.css" %}" media="all">
+</head>
+
+<body>
+    <br><br><br>
+    <h2>CVE Description</h2>
+    <form autocomplete="off" class="form webdesigntuts-workshop" method="" POST>
+        {% csrf_token %}
+        <input name="cve_id" type="text" placeholder="Enter CVE ID" <button type="submit">Search</button>
+    </form>
+    <br><br><br>
+    <div class="container webdesigntuts-workshop">
+        <section class="pattern-description">
+            {% if result %}
+            <table id="t01">
+                <tr>
+                    <th style="text-align:center">CVE ID</th>
+                    <th style="text-align:center">Published</th>
+                    <th style="text-align:center">Modified</th>
+                    <th style="text-align:center">CVSS</th>
+                    <th style="text-align:center">Complexity</th>
+                </tr>
+                <tr>
+                    <td style="text-align:center">{{ result.cve_id}}</td>
+                    <td style="text-align:center">{{ result.published}}</td>
+                    <td style="text-align:center">{{ result.modified}}</td>
+                    <td style="text-align:center">{{ result.cvss}}</td>
+                    <td style="text-align:center">{{ result.complexity}}</td>
+                </tr>
+            </table>
+            <br>
+            <table id="t02">
+                <tr>
+                    <th style="text-align:center">Summary</th>
+                </tr>
+                <tr>
+                    <td style="text-align:center">{{ result.summary }}</td>
+                </tr>
+            </table>
+            <!--                <h4>Capec:</h4>
+                {% for l in result.capec %}
+                    <h4>{{ l }}</h4>
+                {% endfor %}-->
+            {% endif %}
+            {% if error %}
+            <td style="text-align:center">{{ error }}</td>
+            {% endif %}
+    </div>
+
+</body>
+{% endblock %}
+</body>

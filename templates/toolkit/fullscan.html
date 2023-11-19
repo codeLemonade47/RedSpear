@@ -1,0 +1,51 @@
+
+{% block content %}
+{% load static %}
+<html>
+<link rel="stylesheet" type="text/css" href="{% static 'css\fullscan.css' %}" media="all" />
+<title>
+    {% block title %}
+    Full Scan - RedSpear
+    {% endblock %}
+</title>
+
+<br><br><br><br><br><br><br><br><br><br>
+
+<form autocomplete="off" class="form" method="post">
+    {% csrf_token %}
+    <div class="control">
+        <h1>
+            Full Scan
+        </h1>
+    </div>
+    <div class="control block-cube block-input">
+        <input name="ip" placeholder="Enter Hostname or IP" type="text">
+        <div class="bg-top">
+            <div class="bg-inner"></div>
+        </div>
+        <div class="bg-right">
+            <div class="bg-inner"></div>
+        </div>
+        <div class="bg">
+            <div class="bg-inner"></div>
+        </div>
+
+        <button class="btn block-cube block-cube-hover" type="submit">
+            <div class="bg-top">
+                <div class="bg-inner"></div>
+            </div>
+            <div class="bg-right">
+                <div class="bg-inner"></div>
+            </div>
+            <div class="bg">
+                <div class="bg-inner"></div>
+            </div>
+            <div class="text">
+                Start
+            </div>
+</form>
+
+
+{% endblock %}
+
+</html>
