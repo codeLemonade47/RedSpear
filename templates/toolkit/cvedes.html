@@ -1,14 +1,14 @@
 {% extends "toolkit/base.html" %}
-
 {% block content %}
+{% load static %}
 
 <head>
     <title>
-        { % block title % }
+    { % block title % }
         CVE-Desc - RedSpear Toolkit
-        {% endblock %}
+    {% endblock %}
     </title>
-    <link rel="stylesheet" type="text/css" href="{% static "static\css\searchbar_main.css" %}" media="all">
+    <link rel="stylesheet" type="text/css" href="{% static " static\css\searchbar_main.css" %}" media="all">
 </head>
 
 <body>
@@ -59,4 +59,3 @@
 
 </body>
 {% endblock %}
-</body>
