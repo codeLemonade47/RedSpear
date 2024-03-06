@@ -11,6 +11,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.http.response import Http404, HttpResponse, StreamingHttpResponse
 from django.contrib.auth import login, logout, authenticate
 
+
 from .forms import(
     IpscanForm, CvedesForm
 )

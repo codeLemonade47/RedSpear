@@ -1,0 +1,21 @@
+::after,
+::before {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #212121;
+    color: #fff;
+    font-family: Montserrat, sans-serif;
+    letter-spacing: 0.05em;
+}
+
+h1 {
+    font-size: 23px;
+}
+
+.form {
+    width: 300px;
+    padding: 64px 15px 24px;
+    margin: 0 auto;
+}

@@ -1,4 +1,4 @@
-#!/home/mohit/Documents/RedSpear/venv/bin/python3
+#!/home/kali/Documents/RedSpear/venv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys

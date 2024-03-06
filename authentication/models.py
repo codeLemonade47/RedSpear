@@ -7,3 +7,4 @@ class Report(models.Model):
     title = models.CharField(max_length=100)
     report_file = models.FileField(upload_to="reports/%Y/%m/%d")
     report_date = models.DateTimeField(auto_now_add=True)  
+
