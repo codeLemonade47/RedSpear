@@ -1,0 +1,17 @@
+<!-- scanner/templates/cve_descriptor_form.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CVE Descriptor</title>
+</head>
+<body>
+    <h1>Get CVE Description</h1>
+    <form method="post" action="{% url 'cve_descriptor' %}">
+        {% csrf_token %}
+        <label for="cve_id">Enter CVE ID:</label>
+        <input type="text" name="cve_id" required>
+        <button type="submit">Get Description</button>
+    </form>
+</body>
+</html>

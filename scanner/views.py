@@ -12,6 +12,7 @@ from reportlab.lib.pagesizes import letter
 from .utils import live_host_scan
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.platypus import SimpleDocTemplate, Paragraph
+from .utils import get_cve_description
 
 
 def generate_pdf(scan_results):
@@ -87,3 +88,15 @@ def download(request):
         response = HttpResponse(pdf_file.read(), content_type='application/pdf')
         response['Content-Disposition'] = f'attachment; filename="{pdf_filename}"'
     return response
+
+
+def cve_descriptor(request):
+    if request.method == 'POST':
+        cve_id = request.POST.get('cve_id')
+
+        # Get CVE description
+        cve_description = get_cve_description(cve_id)
+
+        return render(request, 'cve_descriptor_results.html', {'cve_id': cve_id, 'cve_description': cve_description})
+
+    return render(request, 'cve_descriptor_form.html')  # Display the form to input the CVE ID

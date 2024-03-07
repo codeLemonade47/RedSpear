@@ -1,24 +1,26 @@
 {% extends "toolkit/base.html" %}
+
 {% block content %}
 {% load static %}
 
 <head>
     <title>
-    { % block title % }
-        CVE-Desc - RedSpear Toolkit
-    {% endblock %}
+        {% block title %}
+        CVE-Desc - RedTeam Toolkit
+        {% endblock %}
     </title>
-    <link rel="stylesheet" type="text/css" href="{% static " static\css\searchbar_main.css" %}" media="all">
+    <link rel="stylesheet" type="text/css" href="{% static " toolkit/css/searchbar_main.css" %}" media="all">
 </head>
 
 <body>
     <br><br><br>
     <h2>CVE Description</h2>
-    <form autocomplete="off" class="form webdesigntuts-workshop" method="POST">
+    <form autocomplete='off' class='form webdesigntuts-workshop' method="POST">
         {% csrf_token %}
-        <input name="cve_id" type="text" placeholder="Enter CVE ID" <button type="submit">Search</button>
+        <input name="cve_id" type="text" placeholder="ENTER CVE ID">
+        <button type='submit'>Search</button>
     </form>
-    <br><br><br>
+    <br><br><br><br>
     <div class="container webdesigntuts-workshop">
         <section class="pattern-description">
             {% if result %}

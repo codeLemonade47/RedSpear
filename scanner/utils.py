@@ -1,6 +1,7 @@
 # scanner/utils.py
 
-import nmap
+from urllib.parse import urljoin
+import nmap, requests
 
 def live_host_scan(ip):
     nm = nmap.PortScanner()
@@ -23,3 +24,51 @@ def live_host_scan(ip):
         scan_results.append(result)
 
     return scan_results
+
+
+class CVESearch(object):
+    def __init__(self, base_url="https://cvepremium.circl.lu", proxies=None):
+        self.base_url = base_url
+        self.session = requests.Session()
+        self.session.proxies = proxies
+        self.session.headers.update(
+            {
+                "content-type": "application/json",
+                "User-Agent": "PyCVESearch - python wrapper",
+            }
+        )
+
+    def _http_get(self, api_call, query=None):
+        if query is None:
+            response = self.session.get(
+                urljoin(self.base_url, "api/{}".format(api_call))
+            )
+        else:
+            response = self.session.get(
+                urljoin(self.base_url, "api/{}/{}".format(api_call, query))
+            )
+        return response
+
+
+def get_cve_description(cve_id):
+    # Strip leading and trailing whitespaces from the CVE ID
+    cve_id = cve_id.strip()
+
+    # Initialize CVESearch class
+    cve_search = CVESearch()
+
+    try:
+        # Make a request to the CIRCL CVE Premium API
+        response = cve_search._http_get("cve", cve_id)
+
+        # Check if the request was successful (status code 200)
+        if response.status_code == 200:
+            # Extract the description from the JSON response
+            cve_description = response.json().get("summary", "")
+            return cve_description
+
+    except requests.RequestException as e:
+        print(f"Error fetching CVE description: {e}")
+
+    # Return a placeholder description if the request fails
+    return f"Description for CVE {cve_id} is not available."
