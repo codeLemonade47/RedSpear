@@ -50,13 +50,12 @@ button:focus {
 
 /* Style for the input field */
 input[type="text"] {
-    background: #3498db;
+    background: #757575;
     box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
 }
 
 /* Style for the button */
 button {
-    background: #e74c3c;
+    background: #f8432f;
     cursor: pointer;
 }
-
