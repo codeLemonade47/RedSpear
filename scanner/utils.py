@@ -63,12 +63,22 @@ def get_cve_description(cve_id):
 
         # Check if the request was successful (status code 200)
         if response.status_code == 200:
-            # Extract the description from the JSON response
-            cve_description = response.json().get("summary", "")
-            return cve_description
+            # Extract relevant information from the JSON response
+            cve_info = response.json()
+            return {
+                'summary': cve_info.get("summary", "Description not available."),
+                'cvss': cve_info.get('cvss', 'N/A'),
+                'cvss3': cve_info.get('cvss3', 'N/A'),
+                'Published': cve_info.get('Published', 'N/A'),
+            }
 
     except requests.RequestException as e:
         print(f"Error fetching CVE description: {e}")
 
-    # Return a placeholder description if the request fails
-    return f"Description for CVE {cve_id} is not available."
+    # Return a placeholder dictionary if the request fails
+    return {
+        'summary': f"Description for CVE {cve_id} is not available.",
+        'cvss': 'N/A',
+        'cvss3': 'N/A',
+        'Published': 'N/A',
+    }

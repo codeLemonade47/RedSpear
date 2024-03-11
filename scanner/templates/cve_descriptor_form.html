@@ -1,17 +1,62 @@
 <!-- scanner/templates/cve_descriptor_form.html -->
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>CVE Descriptor</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CVE Descriptor Form</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #000000;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        .container {
+            text-align: center;
+            padding: 20px;
+            background-color: #212121;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #d4d4d4;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #d4d4d4;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-    <h1>Get CVE Description</h1>
-    <form method="post" action="{% url 'cve_descriptor' %}">
-        {% csrf_token %}
-        <label for="cve_id">Enter CVE ID:</label>
-        <input type="text" name="cve_id" required>
-        <button type="submit">Get Description</button>
-    </form>
+    <div class="container">
+        <h1>CVE Descriptor Form</h1>
+        <form method="post" action="{% url 'cve_descriptor' %}">
+            {% csrf_token %}
+            <label for="cve_id">Enter CVE ID:</label>
+            <input type="text" id="cve_id" name="cve_id" required>
+            <button type="submit">Get Description</button>
+        </form>
+    </div>
 </body>
 </html>
