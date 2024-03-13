@@ -2,6 +2,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,6 +18,7 @@
             justify-content: center;
             height: 100vh;
         }
+
         .container {
             text-align: center;
             padding: 20px;
@@ -24,20 +26,63 @@
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+
         h1 {
             color: #d4d4d4;
         }
+
         label {
             display: block;
             margin-bottom: 10px;
             color: #d4d4d4;
         }
-        input {
+
+        /* Define the default styles for the input text field */
+        input[type="text"] {
             width: 100%;
             padding: 10px;
             margin-bottom: 20px;
             box-sizing: border-box;
+            border: 1px solid #ccc;
+            /* Default border color */
+            transition: border-color 0.3s ease;
+            /* Smooth transition effect */
         }
+
+        /* Define the styles when the input text field is focused */
+        input[type="text"]:focus {
+            border-color: #00ff00;
+            /* Green border color */
+            animation: glow 0.5s infinite;
+            /* Glowing animation */
+            outline: none;
+            /* Remove the default outline */
+        }
+
+        /* Define the glowing animation */
+        @keyframes glow {
+            0% {
+                border-color: #00ff00;
+                /* Start with green border color */
+                box-shadow: 0 0 10px #00ff00;
+                /* Start with green shadow */
+            }
+
+            50% {
+                border-color: #00ff00;
+                /* Maintain green border color */
+                box-shadow: 0 0 10px #00ff00;
+                /* Maintain green shadow */
+            }
+
+            100% {
+                border-color: #00ff00;
+                /* End with green border color */
+                box-shadow: 0 0 10px #00ff00;
+                /* End with green shadow */
+            }
+        }
+
         button {
             background-color: #4caf50;
             color: #fff;
@@ -48,6 +93,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h1>CVE Descriptor Form</h1>
@@ -59,4 +105,5 @@
         </form>
     </div>
 </body>
+
 </html>

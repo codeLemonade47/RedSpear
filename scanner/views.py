@@ -2,6 +2,7 @@
 
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.conf import settings
 from .models import ScanResult
 from django.http import JsonResponse
 import threading
@@ -13,6 +14,11 @@ from .utils import live_host_scan
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.platypus import SimpleDocTemplate, Paragraph
 from .utils import get_cve_description
+import subprocess, os
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import letter, inch, landscape
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 
 
 def generate_pdf(scan_results):
@@ -100,3 +106,54 @@ def cve_descriptor(request):
         return render(request, 'cve_descriptor_results.html', {'cve_id': cve_id, 'cve_description': cve_description})
 
     return render(request, 'cve_descriptor_form.html')  # Display the form to input the CVE ID
+
+
+
+def run_scan(ip_address):
+    command = f'nmap -sT -sV -T5 -Pn --script vulners {ip_address}'
+    process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    stdout, stderr = process.communicate()
+    return stdout.decode(), stderr.decode()
+
+def generate_pdf_report(scan_results_list):
+    pdf_directory = os.path.join(settings.MEDIA_ROOT, 'pdf_reports')
+    if not os.path.exists(pdf_directory):
+        os.makedirs(pdf_directory)
+
+    pdf_filename = os.path.join(pdf_directory, 'scan_report.pdf')
+    doc = SimpleDocTemplate(pdf_filename, pagesize=letter)
+    styles = getSampleStyleSheet()
+    style_heading = styles['Heading1']
+    style_normal = styles['Normal']
+    
+    content = []
+    content.append(Paragraph("Scan Report", style_heading))
+    content.append(Spacer(1, 12))
+
+    for result in scan_results_list:
+        content.append(Paragraph(result, style_normal))
+        content.append(Spacer(1, 6))
+
+    doc.build(content)
+    return pdf_filename
+
+def scan_tool(request):
+    if request.method == 'POST':
+        ip_address = request.POST.get('ip_address')
+        scan_results, _ = run_scan(ip_address)
+        pdf_filename = generate_pdf_report(scan_results.split('\n'))
+        pdf_url = f"{settings.MEDIA_URL}pdf_reports/{os.path.basename(pdf_filename)}"
+        return render(request, 'scan_tool.html', {'pdf_url': pdf_url})
+    return render(request, 'scan_tool.html')
+
+def download_pdf(request):
+    pdf_directory = os.path.join(settings.MEDIA_ROOT, 'pdf_reports')
+    pdf_file_path = os.path.join(pdf_directory, 'scan_report.pdf')
+    
+    if os.path.exists(pdf_file_path):
+        with open(pdf_file_path, 'rb') as pdf_file:
+            response = HttpResponse(pdf_file.read(), content_type='application/pdf')
+            response['Content-Disposition'] = 'attachment; filename="scan_report.pdf"'
+            return response
+    else:
+        return HttpResponse("PDF file not found.", status=404)
