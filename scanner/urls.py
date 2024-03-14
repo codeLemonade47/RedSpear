@@ -11,5 +11,6 @@ urlpatterns = [
     path('download/', download, name='download'),
     path('cve-descriptor/', cve_descriptor, name='cve_descriptor'),
     path('scan-tool/', views.scan_tool, name='scan_tool'),
-     path('download-pdf/', views.download_pdf, name='download_pdf'),
+    path('download-pdf/', views.download_pdf, name='download_pdf'),
+    path('dirscan', views.scan_subdomains, name='scan_subdomains'),
 ]

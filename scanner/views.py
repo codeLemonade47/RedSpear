@@ -157,3 +157,24 @@ def download_pdf(request):
             return response
     else:
         return HttpResponse("PDF file not found.", status=404)
+    
+
+
+def scan_subdomains(request):
+    if request.method == 'POST':
+        domain_name = request.POST.get('domain_url', '')
+        if domain_name:
+            subdomains = enumerate_subdomains(domain_name)
+            return render(request, 'subdomain_results.html', {'subdomains': subdomains})
+    return render(request, 'scan_subdomains.html')
+
+def enumerate_subdomains(domain_name):
+    try:
+        # Run dnsrecon command to enumerate subdomains
+        command = f'dnsrecon -d {domain_name} -t std'
+        process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        stdout, stderr = process.communicate()
+        subdomains = stdout.decode().splitlines()
+        return subdomains
+    except Exception as e:
+        return [str(e)]
