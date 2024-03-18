@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Scan Results</title>
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000000;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #d4d4d4;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        #results {
+            width: 700px;
+            background-color: #202020;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+            margin: 20px auto;
+            padding: 20px;
+            color: #d4d4d4;
+        }
+
+        #results h2 {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #d4d4d4;
+            margin-bottom: 10px;
+        }
+
+        #results p {
+            font-size: 1.1em;
+            color: #d4d4d4;
+            margin-bottom: 10px;
+        }
+
+        #results pre {
+            background-color: #3f3f3f;
+            border-radius: 5px;
+            padding: 10px;
+            overflow-x: auto;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Scan Results</h1>
+    <div id="results">
+        <h2>Website:</h2>
+        <p><strong>Website:</strong> {{ result.website_url }}</p>
+        <h2>Scan Time:</h2>
+        <p><strong>Scan Time:</strong> {{ result.scan_start_time }}</p>
+        <h2>Directories:</h2>
+        <pre>{{ result.results }}</pre>
+    </div>
+</body>
+
+</html>

@@ -1,24 +1,18 @@
 # scanner/views.py
 
-from django.shortcuts import render
-from django.http import HttpResponse
-from django.conf import settings
-from .models import ScanResult
-from django.http import JsonResponse
-import threading
-import nmap
+import requests
+from bs4 import BeautifulSoup
+from django.shortcuts import render, get_object_or_404, redirect
+from .forms import ScanForm
+from .models import WebsiteScan
+import threading, nmap, subprocess, os
 from scapy.all import ARP, Ether, srp
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
-from .utils import live_host_scan
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from reportlab.platypus import SimpleDocTemplate, Paragraph
-from .utils import get_cve_description
-import subprocess, os
 from reportlab.lib import colors
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.pagesizes import letter, inch, landscape
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 
 
 def generate_pdf(scan_results):
@@ -160,21 +154,59 @@ def download_pdf(request):
     
 
 
-def scan_subdomains(request):
-    if request.method == 'POST':
-        domain_name = request.POST.get('domain_url', '')
-        if domain_name:
-            subdomains = enumerate_subdomains(domain_name)
-            return render(request, 'subdomain_results.html', {'subdomains': subdomains})
-    return render(request, 'scan_subdomains.html')
+# def scan_subdomains(request):
+#     if request.method == 'POST':
+#         domain_name = request.POST.get('domain_url', '')
+#         if domain_name:
+#             subdomains = enumerate_subdomains(domain_name)
+#             return render(request, 'subdomain_results.html', {'subdomains': subdomains})
+#     return render(request, 'scan_subdomains.html')
 
-def enumerate_subdomains(domain_name):
-    try:
-        # Run dnsrecon command to enumerate subdomains
-        command = f'dnsrecon -d {domain_name} -t std'
-        process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        stdout, stderr = process.communicate()
-        subdomains = stdout.decode().splitlines()
-        return subdomains
-    except Exception as e:
-        return [str(e)]
+# def enumerate_subdomains(domain_name):
+#     try:
+#         # Run dnsrecon command to enumerate subdomains
+#         command = f'dnsrecon -d {domain_name} -t std'
+#         process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+#         stdout, stderr = process.communicate()
+#         subdomains = stdout.decode().splitlines()
+#         return subdomains
+#     except Exception as e:
+#         return [str(e)]
+
+
+
+
+
+def scan_directory(url):
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, 'html.parser')
+
+    # Find all links in the page
+    links = [a.get('href') for a in soup.find_all('a')]
+
+    # Filter out None values and links that are not to directories
+    directories = [link for link in links if link and link.endswith('/')]
+
+    return directories
+
+
+def scan_form_view(request):
+    if request.method == 'POST':
+        form = ScanForm(request.POST)
+        if form.is_valid():
+            website_url = form.cleaned_data['website_url']
+            # Call the scan_directory function and store the results
+            directories = scan_directory(website_url)
+            results = '\n'.join(directories)
+            # Create a new WebsiteScan object and save it
+            scan_result = WebsiteScan(website_url=website_url, results=results)
+            scan_result.save()
+            # Redirect to the result page
+            return redirect('scan_result', result_id=scan_result.id)
+    else:
+        form = ScanForm()
+    return render(request, 'scanner_form.html', {'form': form})
+
+def scan_result_view(request, result_id):
+    result = get_object_or_404(WebsiteScan, pk=result_id)  # Change class name to WebsiteScan
+    return render(request, 'scan_result.html', {'result': result})
