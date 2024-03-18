@@ -2,6 +2,8 @@
 
 import requests
 from bs4 import BeautifulSoup
+from django.http import HttpResponse
+from django.conf import settings
 from django.shortcuts import render, get_object_or_404, redirect
 from .forms import ScanForm
 from .models import WebsiteScan
@@ -13,6 +15,7 @@ from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.pagesizes import letter, inch, landscape
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
+from .utils import get_cve_description, live_host_scan
 
 
 def generate_pdf(scan_results):
