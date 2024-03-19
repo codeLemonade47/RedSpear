@@ -1,6 +1,7 @@
 # scanner/views.py
 
-import requests
+import requests, os
+import concurrent.futures
 from bs4 import BeautifulSoup
 from django.http import HttpResponse
 from django.conf import settings
@@ -16,6 +17,8 @@ from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.pagesizes import letter, inch, landscape
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
 from .utils import get_cve_description, live_host_scan
+from urllib.parse import urljoin, urldefrag
+from threading import Thread
 
 
 def generate_pdf(scan_results):
@@ -180,18 +183,92 @@ def download_pdf(request):
 
 
 
-def scan_directory(url):
-    response = requests.get(url)
-    soup = BeautifulSoup(response.text, 'html.parser')
+# def scan_directory(url):
+#     response = requests.get(url)
+#     soup = BeautifulSoup(response.text, 'html.parser')
 
-    # Find all links in the page
-    links = [a.get('href') for a in soup.find_all('a')]
+#     # Find all links in the page
+#     links = [a.get('href') for a in soup.find_all('a')]
 
-    # Filter out None values and links that are not to directories
-    directories = [link for link in links if link and link.endswith('/')]
+#     # Filter out None values and links that are not to directories
+#     directories = [link for link in links if link and link.endswith('/')]
 
-    return directories
+#     return directories
 
+
+# def scan_directory(url):
+#     # Make a GET request
+#     try:
+#         response = requests.get(url)
+#     except requests.exceptions.RequestException as e:
+#         print(f"An error occurred: {e}")
+#         return []
+
+#     # Check if the request was successful
+#     if response.status_code != 200:
+#         print(f"Failed to access {url}")
+#         return []
+
+#     # Parse the HTML content
+#     soup = BeautifulSoup(response.text, 'html.parser')
+
+#     # Find all links in the page
+#     links = [a.get('href') for a in soup.find_all('a') if a.get('href')]
+
+#     # Filter out links that are not to directories
+#     directories = [urljoin(url, link) for link in links if link.endswith('/')]
+
+#     return directories
+
+
+def scan_directory(url, directory):
+    dir_url = urljoin(url, directory.strip().rstrip('/')) + '/'
+
+    # Make a GET request
+    try:
+        response = requests.get(dir_url)
+    except requests.exceptions.RequestException as e:
+        print(f"An error occurred: {e}")
+        return
+
+    # Check if the request was successful
+    if response.status_code == 200:
+        print(f"Successfully accessed {dir_url}")
+
+def scan_directories(url, directories):
+    threads = []
+    for directory in directories:
+        thread = Thread(target=scan_directory, args=(url, directory))
+        thread.start()
+        threads.append(thread)
+
+    # Wait for all threads to finish
+    for thread in threads:
+        thread.join()
+
+def scan_directory_fast(base_url):
+    # Open the file
+    with open('static/common.txt', 'r') as file:
+        directories = file.read().splitlines()
+
+    # Find all directories in the list
+    found_directories = []
+
+    # Use a ThreadPoolExecutor to make requests in parallel
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        future_to_url = {executor.submit(requests.get, urljoin(base_url, directory.strip())): directory for directory in directories}
+        for future in concurrent.futures.as_completed(future_to_url):
+            directory = future_to_url[future]
+            try:
+                response = future.result()
+            except Exception as exc:
+                print(f'{base_url}/{directory} generated an exception: {exc}')
+            else:
+                if response.status_code == 200:
+                    print(f"Successfully accessed {base_url}/{directory}")
+                    found_directories.append(f"{base_url}/{directory}")
+
+    return found_directories
 
 def scan_form_view(request):
     if request.method == 'POST':
@@ -199,7 +276,7 @@ def scan_form_view(request):
         if form.is_valid():
             website_url = form.cleaned_data['website_url']
             # Call the scan_directory function and store the results
-            directories = scan_directory(website_url)
+            directories = scan_directory_fast(website_url)
             results = '\n'.join(directories)
             # Create a new WebsiteScan object and save it
             scan_result = WebsiteScan(website_url=website_url, results=results)

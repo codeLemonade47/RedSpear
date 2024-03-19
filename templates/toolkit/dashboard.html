@@ -5,6 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
     <link rel="stylesheet" href="{% static 'css/dashboard.css' %}" type="text/css" media="screen">
     <title>Dashboard</title>
 
@@ -24,7 +25,7 @@
     <div class="optionsbar">
         <a href="{% url 'scan_tool' %}">
             <img src="{% static 'images/fullscan.png' %}" class="fullscan"
-                style="margin-top:15%; width:8%; height:8%; margin-left:31%;">
+                style="margin-top:15%; width:8%; height:8%; margin-left:25%;">
         </a>
 
         <a href="{% url 'index' %}">
@@ -37,13 +38,19 @@
                 style="top:15%; width:8%; height:8%; margin-left:10%;">
         </a>
 
+        <a href="{% url 'scan_form' %}">
+            <img src="{% static 'images/dirscan_logo.png' %}" class="scan"
+            style="top:15%; width: 8%; margin-left: 10%;">
+        </a>
+
     </div>
 
 
     <div class="labels">
-        <p class="fullscanlabel" style="position:relative;margin-top: 1%; margin-left:33%;">Full Scan</p>
-        <p class="livehostlabel" style="position:relative;margin-top: 1%; margin-left:12%;">Live Hosts Scan</p>
+        <p class="fullscanlabel" style="position:relative;margin-top: 1%; margin-left:27%;">Full Scan</p>
+        <p class="livehostlabel" style="position:relative;margin-top: 1%; margin-left:15%;">Live Hosts Scan</p>
         <p class="cvelabel" style="position:relative;margin-left:11%;">CVE Description</p>
+        <p class="dirscan" style="position:relative;margin-left:14%">Directory Scan</p>
 
     </div>
 
