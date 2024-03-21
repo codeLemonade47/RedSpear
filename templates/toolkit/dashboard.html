@@ -19,8 +19,15 @@
         <p>HOME</p><br>
         <a href="{% url 'dashboard' %}"> <img src="{% static 'images/dashboard.png' %}" class="dash"> </a><br>
         <p>DASHBOARD</p><br>
-        <a href="{% url 'signin' %}"> <img src="{% static 'images/logout.png' %}" class="logout"> </a><br>
-        <p>LOGOUT</p><br>
+        <div class="logoutContainer">
+            <img src="{% static 'images/logout.png' %}" class="logout"
+                onclick="document.getElementById('logoutForm').submit();">
+        
+            <form id="logoutForm" action="{% url 'logoutuser' %}" method="post">
+                {% csrf_token %}
+            </form>
+            <p class="labels">LOGOUT</p><br>
+        </div>
     </nav>
 
     <div class="optionsbar">
@@ -41,7 +48,7 @@
 
         <a href="{% url 'scan_form' %}">
             <img src="{% static 'images/dirscan_logo.png' %}" class="scan"
-            style="top:15%; width: 8%; margin-left: 10%;">
+                style="top:15%; width: 8%; margin-left: 10%;">
         </a>
 
     </div>

@@ -19,6 +19,7 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
 from .utils import get_cve_description, live_host_scan
 from urllib.parse import urljoin, urldefrag
 from threading import Thread
+from django.contrib.auth.decorators import login_required
 
 
 def generate_pdf(scan_results):
@@ -58,8 +59,12 @@ def generate_pdf(scan_results):
     
     return pdf_filename
 
+
+
 def index(request):
     return render(request, 'index.html')
+
+
 
 def scan(request):
     ip = request.POST['ip']
@@ -79,6 +84,7 @@ def scan(request):
     return render(request, 'scan_in_progress.html', {'pdf_filename': pdf_filename})
 
 
+
 def download(request):
     # Retrieve scan_results from the session
     scan_results = request.session.get('scan_results', [])
@@ -94,6 +100,7 @@ def download(request):
         response = HttpResponse(pdf_file.read(), content_type='application/pdf')
         response['Content-Disposition'] = f'attachment; filename="{pdf_filename}"'
     return response
+
 
 
 def cve_descriptor(request):
@@ -114,6 +121,7 @@ def run_scan(ip_address):
     process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     stdout, stderr = process.communicate()
     return stdout.decode(), stderr.decode()
+
 
 def generate_pdf_report(scan_results_list):
     pdf_directory = os.path.join(settings.MEDIA_ROOT, 'pdf_reports')
@@ -137,6 +145,7 @@ def generate_pdf_report(scan_results_list):
     doc.build(content)
     return pdf_filename
 
+
 def scan_tool(request):
     if request.method == 'POST':
         ip_address = request.POST.get('ip_address')
@@ -145,6 +154,8 @@ def scan_tool(request):
         pdf_url = f"{settings.MEDIA_URL}pdf_reports/{os.path.basename(pdf_filename)}"
         return render(request, 'scan_tool.html', {'pdf_url': pdf_url})
     return render(request, 'scan_tool.html')
+
+
 
 def download_pdf(request):
     pdf_directory = os.path.join(settings.MEDIA_ROOT, 'pdf_reports')
@@ -221,6 +232,8 @@ def download_pdf(request):
 #     return directories
 
 
+
+
 def scan_directory(url, directory):
     dir_url = urljoin(url, directory.strip().rstrip('/')) + '/'
 
@@ -235,6 +248,8 @@ def scan_directory(url, directory):
     if response.status_code == 200:
         print(f"Successfully accessed {dir_url}")
 
+
+
 def scan_directories(url, directories):
     threads = []
     for directory in directories:
@@ -245,6 +260,8 @@ def scan_directories(url, directories):
     # Wait for all threads to finish
     for thread in threads:
         thread.join()
+
+
 
 def scan_directory_fast(base_url):
     # Open the file
@@ -270,6 +287,8 @@ def scan_directory_fast(base_url):
 
     return found_directories
 
+
+
 def scan_form_view(request):
     if request.method == 'POST':
         form = ScanForm(request.POST)
@@ -287,6 +306,17 @@ def scan_form_view(request):
         form = ScanForm()
     return render(request, 'scanner_form.html', {'form': form})
 
+
+
 def scan_result_view(request, result_id):
     result = get_object_or_404(WebsiteScan, pk=result_id)  # Change class name to WebsiteScan
     return render(request, 'scan_result.html', {'result': result})
+
+
+@login_required
+def logoutuser(request):
+    if request.method == "POST":
+        logout(request)
+        return redirect("signin")
+    else:
+        return redirect("signin")

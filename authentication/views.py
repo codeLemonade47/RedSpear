@@ -10,6 +10,7 @@ from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.http.response import Http404, HttpResponse, StreamingHttpResponse
 from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.decorators import login_required
 
 
 from .forms import(
@@ -22,37 +23,54 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Create your views here.
 def signin(request):
-    return render(request, "authentication/signin.html")
+    if request.method == 'POST':
+        # Get the form data
+        username = request.POST['username']
+        password = request.POST['password']
+
+        # Authenticate the user
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            # Log the user in
+            login(request, user)
+
+            # Redirect to a success page
+            return redirect('dashboard')
+        else:
+            # Return an 'invalid login' error message
+            return render(request, 'authentication/signin.html', {'error': 'Invalid login'})
+
+    # If the request is not a POST, render the login form
+    return render(request, 'authentication/signin.html')
 
 def signup(request):
-    username = request.POST['username']
-    password = request.POST['password']
+    if request.method == 'POST':
+        # Get the form data
+        username = request.POST['username']
+        password = request.POST['password']
 
-    myuser = User.objects.create_user(username, password)
-    myuser.save()
+        # Create a new user with the form data
+        User.objects.create_user(username=username, password=password)
 
-    messages.success(request, "You're now the user.")
+        # Redirect to a success page
+        return redirect('signin')
 
-    return redirect('signin')
+    # If the request is not a POST, render the signup form
+    return render(request, 'authentication/signup.html')
 
-
-
-
-
-
-
-
-
-    return render(request, "authentication/signup.html")
-
+@login_required
 def home(request):
-    pass
+    return render(request, 'toolkit/home.html')
 
+@login_required
 def signout(request):
     pass
 
+@login_required
 def dashboard(request):
     return render(request, "toolkit/dashboard.html")
+
 
 def fullscan(request):
     if request.method == "GET":
@@ -85,13 +103,14 @@ def fullscan(request):
     
     return render(request, "toolkit/download.html")
 
-
+@login_required
 def loginuser(request):
     if request.method == "GET":
         if request.user.is_authenticated:
             return render(request, "toolkit/dashboard.html")
         
 
+@login_required
 def download_file(request):
     filename = f"{function_name}-{ip}.pdf"
     user_name = request.user
@@ -108,15 +127,16 @@ def download_file(request):
 def logoutuser(request):
     if request.method == "POST":
         logout(request)
-        return redirect("home")
+        return redirect("signin")
     else:
-        return render(request, "toolkit/home.html")
+        return redirect("signin")
     
-
+@login_required
 def forbidden(request):
     if request.method == "GET":
         return render(request, "toolkit/403.html")
-    
+
+  
 def cvedes(request):
     if request.method == "GET":
         return render(request, "toolkit/cvedes.html", {"form": CvedesForm()})
