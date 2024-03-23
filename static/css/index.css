@@ -1,4 +1,4 @@
-body {
+/* body {
     background-color: #212121;
     color: #fff;
     font-family: Montserrat, sans-serif;
@@ -7,9 +7,8 @@ body {
     align-items: center;
     justify-content: center;
     height: 100vh;
-    /* 100% of the viewport height */
     margin: 0;
-}
+} */
 
 /* Style for the form container */
 form {

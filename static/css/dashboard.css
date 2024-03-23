@@ -1,79 +1,13 @@
-body {
-    background-color: #212121;
-    color: #fff;
-    font-family: Montserrat, sans-serif;
-    letter-spacing: 0.05em;
-}
 
-nav{
-    width: 160px;
-    height: 100%;
-    background-color: black;
-    position: fixed;
-    top: 0;
-    left: 0;
-    overflow-y: auto;
-    display: flex; /* Use flexbox for vertical centering */
-    flex-direction: column; /* Stack items vertically */
-    align-items: center; /* Center items horizontally */
-    padding: 0;
-}
-
-
-.logo{
-    height: 160px;
-    width: 105px;
-    margin-top: 20px;
-}
-
-.home{
-    height: 50px;
-    width: 50px;
-}
-
-.dash{
-    height: 50px;
-    width: 50px;
-    margin-top: 15px;
-}
-
-.logout{
-    height: 50px;
-    width: 50px;
-    margin-top: 15px;
-}
-
-p{
-    font-size: 12px;
-    margin-left: 15px;
-    margin-top: -15px;
-}
-
-
-
-
-.optionsbar{
+.optionsbar {
     display: inline;
 }
 
-.optionsbar a{
+.optionsbar a {
     text-decoration: none;
 }
 
-.labels{
+.Iconlabels p{
     display: inline;
-}
-
-.labels p{
-    display: inline;
-}
-
-.logoutContainer {
-    position: relative;
-    display: inline-block;
-}
-.logoutContainer {
-    position: relative;
-    display: inline-block;
 }
 

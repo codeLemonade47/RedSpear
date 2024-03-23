@@ -1,95 +1,81 @@
-<!-- scanner/templates/cve_descriptor_results.html -->
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="/static/images/favicon.png">
-    <title>CVE Descriptor Results</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #000000;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-        }
-
-        .container {
-            text-align: center;
-            padding: 20px;
-            background-color: #212121;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            color: #d4d4d4;
-        }
-
-        h2 {
-            color: #d4d4d4;
-
-        }
+{% extends 'toolkit/base.html' %}
 
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
+{% block content %}
+{% load static %}
+<title>
+    {% block title %}
+    CVE Descriptor Results
+    {% endblock %}
+</title>
+<style>
+    .container {
+        text-align: center;
+        padding: 20px;
+        background-color: #212121;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
 
-        th,
-        td {
-            border: 1px solid #ddd;
-            padding: 12px;
-            text-align: left;
-            color: #ddd;
-        }
+    h1 {
+        color: #d4d4d4;
+    }
 
-        th {
-            background-color: #4caf50;
-            color: white;
-        }
-    </style>
-</head>
+    h2 {
+        color: #d4d4d4;
 
-<body>
-    <div class="container">
-        <h1>CVE Descriptor Results</h1>
+    }
 
-        {% if cve_description %}
-        <h2>CVE ID: {{ cve_id }}</h2>
-        
-<table>
-    <tr>
-        <th>Property</th>
-        <th>Value</th>
-    </tr>
-    {% for key, value in cve_description.items %}
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th,
+    td {
+        border: 1px solid #ddd;
+        padding: 12px;
+        text-align: left;
+        color: #ddd;
+    }
+
+    th {
+        background-color: #4caf50;
+        color: white;
+    }
+</style>
+
+<div class="container">
+    <h1>CVE Descriptor Results</h1>
+
+    {% if cve_description %}
+    <h2>CVE ID: {{ cve_id }}</h2>
+
+    <table>
+        <tr>
+            <th>Property</th>
+            <th>Value</th>
+        </tr>
+        {% for key, value in cve_description.items %}
         <tr>
             <td>{{ key|title }}</td>
             <td>
                 {% if key == 'Published' %}
-                    {{ value }}
+                {{ value }}
                 {% else %}
-                    {{ value }}
+                {{ value }}
                 {% endif %}
             </td>
         </tr>
-    {% endfor %}
-</table>
+        {% endfor %}
+    </table>
 
 
-        {% else %}
-        <p>No CVE details available.</p>
-        {% endif %}
-    </div>
-</body>
+    {% else %}
+    <p>No CVE details available.</p>
+    {% endif %}
+</div>
 
-</html>
+{% endblock %}

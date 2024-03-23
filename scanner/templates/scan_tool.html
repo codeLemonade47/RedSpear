@@ -1,25 +1,26 @@
-{% load static %}
+{% extends 'toolkit/base.html' %}
 
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="/static/images/favicon.png">
-    <title>Full Scan</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}" type="text/css" media="screen">
-</head>
-<body>
-    <div class="container">
-        <h1 class="title">Full Scan</h1>
-        <form action="{% url 'scan_tool' %}" method="post" class="scan-form">
-            {% csrf_token %}
-            <label for="ip_address" class="label">Enter IP Address:</label>
-            <input type="text" id="ip_address" name="ip_address" class="input">
-            <button type="submit" class="button">Scan</button>
-        </form>
-        {% if pdf_url %}
-            <p class="completed-message">Scan completed! <a href="{% url 'download_pdf' %}" class="download-link">Download Scan Report</a></p>
-        {% endif %}
-    </div>
-</body>
-</html>
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/styles.css' %}" type="text/css" media="screen">
+
+<title>
+    {% block title %}
+    Full Scan - Red Team Toolkit
+    {% endblock %}
+</title>
+
+<!-- <div class="container"> -->
+<h1 class="title">Full Scan</h1>
+<form action="{% url 'scan_tool' %}" method="post" class="scan-form">
+    {% csrf_token %}
+    <label for="ip_address" class="label">Enter IP Address:</label>
+    <input type="text" id="ip_address" name="ip_address" class="input">
+    <button type="submit" class="button">Scan</button>
+</form>
+{% if pdf_url %}
+<p class="completed-message">Scan completed! <a href="{% url 'download_pdf' %}" class="download-link">Download Scan
+        Report</a></p>
+{% endif %}
+<!-- </div> -->
+{% endblock %}

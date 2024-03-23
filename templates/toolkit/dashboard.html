@@ -1,68 +1,42 @@
+{% extends 'toolkit/base.html' %}
+
+{% block content %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}" type="text/css" media="screen">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
-    <link rel="shortcut icon" href="/static/images/favicon.png">
-    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}" type="text/css" media="screen">
-    <title>Dashboard</title>
+<title>
+    {% block title %}
+    Dashboard - RedTeam Toolkit
+    {% endblock %}
+</title>
 
-</head>
+<div class="optionsbar">
+    <a href="{% url 'scan_tool' %}">
+        <img src="{% static 'images/fullscan.png' %}" class="fullscan" style="width:8%; height:8%; margin-left:15%;">
+    </a>
 
-<body>
-    <nav class="w3-sidebar w3-bar-block w3-small w3-hide-small w3-center ">
-        <img src="{% static 'images/RedSpear_red_logo.png' %}" class="logo"><br><br><br>
-        <a href="{% url 'home' %}"> <img src="{% static 'images/home.png' %}" class="home"> </a><br>
-        <p>HOME</p><br>
-        <a href="{% url 'dashboard' %}"> <img src="{% static 'images/dashboard.png' %}" class="dash"> </a><br>
-        <p>DASHBOARD</p><br>
-        <div class="logoutContainer">
-            <img src="{% static 'images/logout.png' %}" class="logout"
-                onclick="document.getElementById('logoutForm').submit();">
-        
-            <form id="logoutForm" action="{% url 'logoutuser' %}" method="post">
-                {% csrf_token %}
-            </form>
-            <p class="labels">LOGOUT</p><br>
-        </div>
-    </nav>
+    <a href="{% url 'index' %}">
+        <img src="{% static 'images/computer.png' %}" class="scan" style="width:8%; height:8%; margin-left:10%;">
+    </a>
 
-    <div class="optionsbar">
-        <a href="{% url 'scan_tool' %}">
-            <img src="{% static 'images/fullscan.png' %}" class="fullscan"
-                style="margin-top:15%; width:8%; height:8%; margin-left:25%;">
-        </a>
+    <a href="{% url 'cve_descriptor' %}">
+        <img src="{% static 'images/cve_record.png' %}" class="scan" style="width:8%; height:8%; margin-left:10%;">
+    </a>
 
-        <a href="{% url 'index' %}">
-            <img src="{% static 'images/computer.png' %}" class="scan"
-                style="top:15%; width:8%; height:8%; margin-left:10%;">
-        </a>
+    <a href="{% url 'scan_form' %}">
+        <img src="{% static 'images/dirscan_logo.png' %}" class="scan" style="top:15%; width: 8%; margin-left: 10%;">
+    </a>
 
-        <a href="{% url 'cve_descriptor' %}">
-            <img src="{% static 'images/cve_record.png' %}" class="scan"
-                style="top:15%; width:8%; height:8%; margin-left:10%;">
-        </a>
-
-        <a href="{% url 'scan_form' %}">
-            <img src="{% static 'images/dirscan_logo.png' %}" class="scan"
-                style="top:15%; width: 8%; margin-left: 10%;">
-        </a>
-
-    </div>
+</div><br>
 
 
-    <div class="labels">
-        <p class="fullscanlabel" style="position:relative;margin-top: 1%; margin-left:27%;">Full Scan</p>
-        <p class="livehostlabel" style="position:relative;margin-top: 1%; margin-left:15%;">Live Hosts Scan</p>
-        <p class="cvelabel" style="position:relative;margin-left:11%;">CVE Description</p>
-        <p class="dirscan" style="position:relative;margin-left:14%">Directory Scan</p>
+<div class="Iconlabels">
 
-    </div>
+    <p style="width:8%; height:8%; margin-left:17%;">Full Scan</p>
+    <p style="width:8%; height:8%; margin-left:13%;">Live Host Scan</p>
+    <p style="width:8%; height:8%; margin-left:9%;">CVE Descriptor</p>
+    <p style="width:8%; height:8%; margin-left:11%;">Directory Scan</p>
+</div>
 
 
-</body>
-
-</html>
+{% endblock %}

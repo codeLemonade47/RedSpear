@@ -1,18 +1,12 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #000000;
-    margin: 0;
-    padding: 0;
-}
-
+/* 
 .container {
-    max-width: 600px;
-    margin: 50px auto; /* Center the container horizontally */
+    max-width: 300px;
     padding: 20px;
     background-color: #202020;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
+    position: fixed;
+} */
 
 
 .title {
@@ -25,7 +19,7 @@ body {
 }
 
 .label {
-    display: block;
+    display: flex;
     margin-bottom: 5px;
     color: #d4d4d4;
 }
